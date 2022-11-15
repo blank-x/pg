@@ -50,7 +50,9 @@ function read(dir=''){
   _read(dir)
   return _result;
 }
-fs.unlinkSync(path.resolve(cwd, 'index.html'))
+try{
+  fs.unlinkSync(path.resolve(cwd, 'index.html'))
+}catch (e) {}
 const result = read();
 const tpl = generateTpl(result);
 

@@ -51,9 +51,9 @@ function read(dir=''){
   return _result;
 }
 try{
-  fs.unlinkSync(path.resolve(cwd, 'index.html'))
+  fs.unlinkSync(path.resolve(cwd, 'README.md'))
 }catch (e) {}
 const result = read();
 const tpl = generateTpl(result);
 
-fs.writeFileSync(path.resolve(cwd, 'index.html'),tpl,{encoding:'utf8'})
+fs.writeFileSync(path.resolve(cwd, 'README.md'),tpl,{encoding:'utf8'})

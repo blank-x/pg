@@ -1,0 +1,27 @@
+name: generatePage
+
+on:
+  # 每当 push 到 main 分支时触发部署
+  push:
+    branches: [master]
+  # 手动触发部署
+  workflow_dispatch:
+
+jobs:
+  generatePage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          # 选择要使用的 node 版本
+          node-version: '14'
+
+      # 如果缓存没有命中，安装依赖
+      - name: Install dependencies
+        run: npm install
+
+      # 运行构建脚本
+      - name: Generate Page
+        run: npm run generate

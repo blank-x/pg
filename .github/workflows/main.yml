@@ -17,13 +17,13 @@ jobs:
         with:
           # 选择要使用的 node 版本
           node-version: '14'
-
+      - name: Cd
+        run: cd ..
       # 如果缓存没有命中，安装依赖
       - name: Install dependencies
         run: npm install
       # 运行构建脚本
-      - name: Cd
-        run: cd ..
+
       # 运行构建脚本
       - name: Generate Page
         run: npm run generate

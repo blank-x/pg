@@ -1,7 +1,9 @@
 {
-  "name": "$name$",
-  "version": "$version$",
+  "name": "pg-1",
+  "version": "1.0.0",
+  "scripts": {
+    "generate": "node ./generate.js"
+  },
   "dependencies": {
-    $END$
   }
 }

@@ -25,3 +25,8 @@ jobs:
       # 运行构建脚本
       - name: Generate Page
         run: npm run generate
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+

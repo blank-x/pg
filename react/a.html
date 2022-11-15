@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="container-element"></div>
+<button onclick="addSub()">增加子元素</button>
+<style>
+    @keyframes nodeInserted {
+        from { opacity: 0.1; }
+        to { opacity: 1; }
+    }
+    #container-element{
+        min-height: 5px;
+        border: 1px solid rosybrown;
+    }
+    #container-element * {
+        animation-duration: 6s;
+        animation-name: nodeInserted;
+    }
+</style>
+<script >
+    var insertionListener = function(event) {
+        if (event.animationName === "nodeInserted") {
+            console.log("Node has been inserted: " + event.target);
+        }
+    }
+    document.addEventListener('animationstart', insertionListener, false)
+
+    function addSub(){
+        var p = document.createElement('p')
+        p.innerHTML = 'p'
+        console.log(document.querySelector("#container-element"));
+        document.querySelector("#container-element").appendChild(p)
+    }
+</script>
+</body>
+</html>

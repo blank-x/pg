@@ -7,16 +7,24 @@ function generateTpl(data = []){
     return `<li><a href="${item}">${item}</a></li>`
   }).join('<br />')
   const tpl = `
-<style>
-    ul li{
-        list-style: none;
-    }
-    a{
-        text-decoration: none;
-    }
-</style>
-<ul>${str}</ul>
-`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul li{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+   <ul>${str}</ul>
+</body>
+</html>`
   return tpl;
 }
 
@@ -43,9 +51,9 @@ function read(dir=''){
   return _result;
 }
 try{
-  fs.unlinkSync(path.resolve(cwd, 'README.md'))
+  fs.unlinkSync(path.resolve(cwd, 'index.html'))
 }catch (e) {}
 const result = read();
 const tpl = generateTpl(result);
 
-fs.writeFileSync(path.resolve(cwd, 'README.md'),tpl,{encoding:'utf8'})
+fs.writeFileSync(path.resolve(cwd, 'index.html'),tpl,{encoding:'utf8'})

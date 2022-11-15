@@ -2,8 +2,11 @@
   "name": "pg-1",
   "version": "1.0.0",
   "scripts": {
-    "generate": "node ./generate.js"
+    "generate": "node ./generate.js",
+    "prepare": "husky install"
   },
   "dependencies": {
+    "husky": "^8.0.2",
+    "shelljs": "^0.8.5"
   }
 }

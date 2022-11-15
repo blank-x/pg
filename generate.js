@@ -7,11 +7,6 @@ function generateTpl(data = []){
     return `<li><a href="${item}">${item}</a></li>`
   }).join('<br />')
   const tpl = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
     <style>
         ul li{
             list-style: none;
@@ -20,11 +15,8 @@ function generateTpl(data = []){
             text-decoration: none;
         }
     </style>
-</head>
-<body>
    <ul>${str}</ul>
-</body>
-</html>`
+`
   return tpl;
 }
 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdn.bootcdn.net/ajax/libs/react/16.11.0/umd/react.production.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/react-dom/16.11.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.18.4/babel.min.js"></script>
+<script type="text/babel">
+  class App extends React.Component {
+    focus=()=> {
+      console.log('div focus')
+    }
+    inputFocus=()=>{
+      console.log('input focus')
+    }
+    render() {
+      return <div onFocus={this.focus}  >
+        react <input onFocus={this.inputFocus} />
+      </div>
+    }
+  }
+  window.onload = function () {
+    ReactDOM.render(<App />, document.querySelector('#root'))
+  }
+</script>
+
+<div id="d1" tabindex="-1">
+    原生 <input id="d2" />
+    1111
+</div>
+<script>
+  const d1 = document.querySelector('#d1');
+  d1.addEventListener('focus', function () {
+    console.log('d1 focus') // 不会触发focus
+  }, {capture: true})
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>获取cnblog的文章地址</div>
+<script>
+    const link = Array.from(document.querySelectorAll('.post-title-appendix'));
+    // console.log(link)
+    const res = link.map(l=>{
+      return `[${l.innerText.trim()}](${l.href})`
+    })
+    console.log(res.join('\r\t'));
+    // const d = res
+</script>
+</body>
+</html>

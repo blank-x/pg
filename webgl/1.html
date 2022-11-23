@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>绘制三角形</title>
+  <link rel="stylesheet" href="styles/app.css">
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<script>
+  const random = Math.random;
+
+  /**
+   * 获取随机颜色
+   * @returns { Object } 颜色对象
+   */
+  function randomColor () {
+    return {
+      r: random() * 255,
+      g: random() * 255,
+      b: random() * 255,
+      a: random() * 1
+    }
+  }
+
+  const canvas = document.querySelector('#canvas');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const gl = canvas.getContext('webgl');
+  gl.clearColor(0, 0, 0, 1);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+
+  // 顶点着色器
+  const vertexShaderSource = `
+      // 设置浮点数据类型为中级精度
+      precision mediump float;
+      // 接收顶点坐标 (x,y)
+      attribute vec2 a_Position;
+      void main () {
+        gl_Position = vec4(a_Position, 0.0, 1.0);
+      }
+    `;
+  const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+  gl.shaderSource(vertexShader, vertexShaderSource);
+  gl.compileShader(vertexShader);
+
+  // 片元着色器
+  const fragmentShaderSource = `
+      // 设置浮点数据类型为中级精度
+      precision mediump float;
+      // 接收 JavaScript 传过来的颜色值（rgba）
+      uniform vec4 u_Color;
+      void main(){
+        vec4 color = u_Color / vec4(255, 255, 255, 1);
+        gl_FragColor = color;
+      }
+    `;
+  const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+  gl.shaderSource(fragmentShader,fragmentShaderSource);
+  gl.compileShader(fragmentShader);
+
+  // 着色器程序
+  const program = gl.createProgram();
+  gl.attachShader(program, vertexShader);
+  gl.attachShader(program, fragmentShader);
+  gl.linkProgram(program);
+  gl.useProgram(program);
+
+  // 获取着色器程序中变量的指针位置
+  const a_Position = gl.getAttribLocation(program, 'a_Position')
+  const u_Color = gl.getUniformLocation(program, 'u_Color');
+
+  // 定义三角形的三个顶点
+  const positions = [
+    0, 0.5,     // 上顶点
+    -0.5, -0.5, // 左顶点
+    0.5, -0.5   // 右顶点
+  ];
+
+  // 创建缓冲区
+  const buffer = gl.createBuffer();
+
+  // 绑定缓冲区并指定缓冲区的类型
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+
+  // 往缓冲区中写入数据
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+  // 将属性绑定到缓冲区
+  gl.enableVertexAttribArray(a_Position);
+
+  // 如何读取缓冲区数据
+  // 指定要修改的顶点属性的索引（允许哪个属性读取当前缓冲区的数据） - a_Position
+  // 指定每个顶点属性的组成数量（一次读取几个数据） - 2
+  // 指定数组中每个元素的数据类型 - gl.FLOAT（32 位 IEEE 标准的浮点数，占用 4 个字节）
+  // 当转换为浮点数时是否应该将整数数值归一化到特定的范围 - false（对于类型 gl.FLOAT 和 gl.HALF_FLOAT，此参数无效）
+  // 步长（即：每个顶点所包含数据的字节数）0 表示一个属性的数据是连续存放的
+  // 偏移量（指定顶点属性数组中第一部分的字节偏移量）（在每个步长的数据里，目标属性需要偏移多少字节开始读取；必须是类型的字节长度的倍数）0 * 4 = 0
+  gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
+
+  // 随机颜色
+  const { r, g, b, a } = randomColor();
+  // 向片元着色器传递颜色信息
+  gl.uniform4f(u_Color, r, g, b, a);
+
+  // 绘制三角形
+  // 指定绘制图元的方式 - gl.TRIANGLES（三角形）
+  // 指定从哪个点开始绘制 - 0
+  // 指定绘制需要使用到多少个点 - 3
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 3);
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdn.bootcdn.net/ajax/libs/react/16.11.0/umd/react.production.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/react-dom/16.11.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.18.4/babel.min.js"></script>
+<script type="text/babel">
+
+  // 代码改造于 https://segmentfault.com/a/1190000038251163
+
+  /*class App extends React.Component {
+    parentRef;
+    childRef;
+    constructor(props) {
+      super(props);
+      this.parentRef = React.createRef();
+      this.childRef = React.createRef();
+    }
+    componentDidMount() {
+      console.log("React componentDidMount！");
+      this.parentRef.current?.addEventListener("click", () => {
+        console.log("原生事件：父元素 DOM 事件监听！");
+      });
+      this.childRef.current?.addEventListener("click", () => {
+        console.log("原生事件：子元素 DOM 事件监听！");
+      });
+      document.addEventListener("click", (e) => {
+        console.log("原生事件：document DOM 事件监听！");
+      });
+    }
+    parentClickFun = () => {
+      console.log("React 事件：父元素事件监听！");
+    };
+    childClickFun = () => {
+      console.log("React 事件：子元素事件监听！");
+    };
+    render() {
+      return (
+        <div ref={this.parentRef} onClick={this.parentClickFun}>
+          <div ref={this.childRef} onClick={this.childClickFun}>
+            分析事件执行顺序
+          </div>
+        </div>
+      );
+    }
+  }*/
+
+  class App extends React.Component {
+    parentRef;
+    childRef;
+    constructor(props) {
+      super(props);
+      this.parentRef = React.createRef();
+      this.childRef = React.createRef();
+    }
+    componentDidMount() {
+      console.log("React componentDidMount！");
+      this.parentRef.current?.addEventListener("click", () => {
+        console.log("原生事件：父元素 DOM 事件监听！");
+      }, true);
+      this.childRef.current?.addEventListener("click", () => {
+        console.log("原生事件：子元素 DOM 事件监听！");
+      }, true);
+      document.addEventListener("click", (e) => {
+        console.log("原生事件：document DOM 事件监听！");
+      }, true);
+    }
+    parentClickFun = (e) => {
+      setTimeout(()=>{
+        console.log(e)
+
+      }, 1000)
+      console.log("React 事件：父元素事件监听！");
+    };
+    childClickFun = () => {
+      console.log("React 事件：子元素事件监听！");
+    };
+    render() {
+      return (
+        <div ref={this.parentRef} onClickCapture={this.parentClickFun}>
+          <div ref={this.childRef} onClickCapture={this.childClickFun}>
+            捕获事件执行顺序
+          </div>
+        </div>
+      );
+    }
+  }
+
+  window.onload = function () {
+    ReactDOM.render(<App />, document.querySelector('#root'))
+  }
+</script>
+
+</body>
+</html>

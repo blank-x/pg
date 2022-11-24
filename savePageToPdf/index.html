@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js" ></script>
+  <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.js" ></script>
+</head>
+<body>
+<button id="topdf">保存为pdf</button>
+
+<div style="width: 600px; margin: 0 auto" id="box">
+  <div><img src="./img.png" alt=""><img src="./img.png" alt=""></div>1
+  <div><img src="./img.png" alt=""><img src="./img.png" alt=""></div>2
+  <div><img src="./img.png" alt=""><img src="./img.png" alt=""></div>3
+  <div><img src="./img.png" alt=""><img src="./img.png" alt=""></div>4
+  <div><img src="./img.png" alt=""><img src="./img.png" alt=""></div>5
+  <div><img src="./img.png" alt=""><img src="./img.png" alt=""></div>6
+  <div><img src="./img.png" alt=""><img src="./img.png" alt=""></div>7
+  <div><img src="./img.png" alt=""><img src="./img.png" alt=""></div>8
+  <div><img src="./img.png" alt=""><img src="./img.png" alt=""></div>9
+  <div><img src="./img.png" alt=""><img src="./img.png" alt=""></div>10
+</div>
+<script>
+  var saveBtn = document.querySelector('#topdf');
+  var target = document.querySelector('#box');
+  saveBtn.addEventListener('click', ()=>{
+    html2canvas(target).then((canvas)=>{
+      const pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+      const doc = new jspdf.jsPDF({
+        orientation: 'p', // 纵向  默认
+        unit: 'pt', // 单位用pt
+        format: 'a4',
+      });
+      const a4_width = 595.28; // a4纸的宽度 单位pt
+      const a4_height = 841.89; //  a4纸的高度 单位pt
+      const contentWidth = canvas.width; // 图片实际宽度
+      const contentHeight = canvas.height; // 图片实际高度
+
+      const pageHeight = (contentWidth / a4_width) * a4_height; // 图片的实际宽度是可能大于a4纸的，在这里计算出a4纸一页上能放的实际图片的尺寸， 根据a4纸的宽高比例计算
+
+      let remainedHeight = contentHeight;
+
+      const imgHeight = (a4_width / contentWidth) * contentHeight; // 图片缩放到a4宽度的情况下的图片长度
+
+      remainedHeight -= pageHeight;
+
+      let position = 0;
+      doc.addImage(pageData, 'JPEG', 0, position, a4_width, imgHeight); // 截取第一幅图到pdf第一页
+      while (remainedHeight >= 0) { // 如果还有图片没有放到pdf，继续增加pdf放置图片剩余内容；
+        position = position + a4_height;
+        doc.addPage();
+        // 可以把 position 看成 background-position； 都是负值来表示向上/向左偏移
+        doc.addImage(pageData, 'JPEG', 0, -position, a4_width, imgHeight);
+        remainedHeight -= pageHeight;
+      }
+
+      doc.save(`下载.pdf`);
+    })
+  })
+</script>
+</body>
+</html>

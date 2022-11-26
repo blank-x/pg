@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <script type="text/JavaScript" src="https://unpkg.com/jquery@3.6.1/dist/jquery.js"></script>
+
+  <script type="text/JavaScript" src="https://unpkg.com/jQuery.print@1.5.1/jQuery.print.js"></script>
+
 </head>
 <body>
 <style>
@@ -10,10 +14,6 @@
     margin: 0;
     padding: 0;
   }
-  section div{
-    break-inside: avoid;
-  }
-
   section{
     width: 610pt;
     margin: 0 auto;
@@ -23,36 +23,33 @@
     height: 200px;
     border: 4px solid red;
     margin-bottom: 20px;
-
   }
-</style>
-<style>
   @page {
-    margin: 0cm;
+    margin: 10cm;
     size: 33cm 22.7cm; /* 设置纵向的打印 */
     margin-right: 2.7cm;
   }
 </style>
 <section>
-
-<div>1sdfasdf
-
-</div>
-<div>2sdfasdf sdfsdf</div>
-<div>3sdfasdf sdfsdf</div>
-<div>4sdfasdf sdfsdf</div>
-<div>5sdfasdf sdfsdf</div>
-<div>6sdfasdf sdfsdf</div>
-<div>7sdfasdf sdfsdf</div>
-<div>8sdfasdf sdfsdf</div>
-<div>9sdfasdf sdfsdf</div>
-<div>10sdfasdf sdfsdf</div>
-<div>11sdfasdf sdfsdf</div>
-<div>12sdfasdf sdfsdf</div>
-<div>13sdfasdf sdfsdf</div>
-<div>14sdfasdf sdfsdf</div>
+  <div id="printbox">
+    1sdfasdf
+  </div>
+  <div>2sdfasdf sdfsdf</div>
+  <div>3sdfasdf sdfsdf</div>
+  <div>4sdfasdf sdfsdf</div>
+  <div>5sdfasdf sdfsdf</div>
+  <div>6sdfasdf sdfsdf</div>
+  <div>7sdfasdf sdfsdf</div>
+  <div>8sdfasdf sdfsdf</div>
+  <div>9sdfasdf sdfsdf</div>
+  <div>10sdfasdf sdfsdf</div>
+  <div>11sdfasdf sdfsdf</div>
+  <div>12sdfasdf sdfsdf</div>
+  <div>13sdfasdf sdfsdf</div>
+  <div>14sdfasdf sdfsdf</div>
 </section>
-
-<iframe width="400" height="400" src="./printIframe_frame.html"></iframe>
+<script>
+  $("#printbox").print(/*options*/);
+</script>
 </body>
 </html>

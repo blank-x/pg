@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+<div id="app"></div>
+<div id="app1">
+  <h1>下面是Vue.compile后的结果</h1>
+  <h2>staticRenderFns</h2>
+  <pre>{{staticRenderFns}}</pre>
+  <h2>render</h2>
+  <pre>{{render}}</pre>
+  <h2>_m</h2>
+  <pre>{{_m}}</pre>
+</div>
+<script>
+  var res = Vue.compile(`
+    <div>
+      <span v-once>{{ msg }}</span>
+      <span >{{ name }}</span>
+    </div>`
+  )
+
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        name: 'cat',
+        msg: 'hello',
+      }
+    },
+    render: res.render,
+    staticRenderFns: res.staticRenderFns
+  })
+  new Vue({
+    el: '#app1',
+    data() {
+      return {
+        name: 'cat',
+        msg: 'hello',
+        'staticRenderFns' : res.staticRenderFns.toString(),
+        'render' : res.render.toString(),
+        '_m': '',
+      }
+    },
+  })
+</script>
+
+</body>
+</html>

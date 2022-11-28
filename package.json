@@ -4,7 +4,7 @@
   "scripts": {
     "generate": "node ./generate.js",
     "prepare": "husky install",
-    "upload": "sh ./upload.sh"
+    "publish": "sh ./publish.sh"
   },
   "dependencies": {
     "husky": "^8.0.2",

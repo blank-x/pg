@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdn.bootcdn.net/ajax/libs/react/16.11.0/umd/react.production.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/react-dom/16.11.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.18.4/babel.min.js"></script>
+<script type="text/babel">
+
+  const log = (val)=>()=>console.log(val);
+  function Com1(props) {
+    return <div> {props.children} </div>
+  }
+  function Com2(props) {
+    return <div><input   type="text"  /></div>;
+  }
+  function Com3(props){
+    return ReactDOM.createPortal(props.children,document.querySelector('#fdfdfdf'))
+  }
+
+  const App = () => {
+    const [isShow,show] = React.useState(false)
+    return (
+      <>
+        <Com1 onChange={log('Com1-onChange')}>
+          <Com2 type="text" onChange={log('Com2-onChange')} />
+        </Com1>
+        <div onChange={(log('div-onChange'))}>
+          <Com2 type="text"  />
+        </div>
+        <div id="fdfdfdf" onChange={log('portal-onChange')}>111111</div>
+        {
+          isShow && <div onChange={log('portal-origin-onChange')}>
+            222222
+            <Com3 >
+              <input type='text'/>
+            </Com3>
+          </div>
+        }
+        <button onClick={()=>show(!isShow)}>展示Com3</button>
+      </>
+    );
+  };
+
+  window.onload = function () {
+    ReactDOM.render(<App />, document.querySelector('#root'))
+  }
+</script>
+
+</body>
+</html>

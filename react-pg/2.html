@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="root"></div>
+<div id="root1"></div>
+<script src="https://cdn.bootcdn.net/ajax/libs/react/16.11.0/umd/react.development.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/react-dom/16.11.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.18.4/babel.min.js"></script>
+<script type="text/babel">
+
+  const { createContext, useContext, useReducer } = React;
+  const ContainerContext = createContext({ count: 0 });
+  const initialState = { count: 0 };
+  let tipCount = 0
+  function reducer(state, action) {
+    switch (action.type) {
+      case "increment":
+        return { count: state.count + 1 };
+      case "decrement":
+        return { count: state.count - 1 };
+      default:
+        throw new Error();
+    }
+  }
+
+  function Counter() {
+    const { state, dispatch } = useContext(ContainerContext);
+    return (
+      <>
+        Count: {state.count}
+        <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+        <button onClick={() => dispatch({ type: "increment" })}>+</button>
+      </>
+    );
+  }
+
+  function Tip() {
+    tipCount ++;
+    return <div>Tip渲染次数{tipCount}</div>;
+  }
+
+  function Container() {
+    const [state, dispatch] = useReducer(reducer, initialState);
+    return (
+      <ContainerContext.Provider value={{ state, dispatch }}>
+        <Counter />
+        <Tip />
+      </ContainerContext.Provider>
+    );
+  }
+
+
+  window.addEventListener('load', function () {
+    ReactDOM.render(<Container />, document.querySelector('#root'))
+  })
+</script>
+
+
+<script type="text/babel">
+
+  const { createContext, useContext, useReducer } = React;
+  const ContainerContext1 = createContext({ count: 0 });
+  const initialState1 = { count: 0 };
+  let tipCount1 = 0
+  function reducer1(state, action) {
+    switch (action.type) {
+      case "increment":
+        return { count: state.count + 1 };
+      case "decrement":
+        return { count: state.count - 1 };
+      default:
+        throw new Error();
+    }
+  }
+
+  function Counter1() {
+
+    const { state, dispatch } = useContext(ContainerContext1);
+    return (
+      <>
+        Count: {state.count}
+        <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+        <button onClick={() => dispatch({ type: "increment" })}>+</button>
+      </>
+    );
+  }
+
+  function Tip1() {
+    tipCount1 ++;
+    return <div>Tip渲染次数{tipCount1}</div>;
+  }
+
+  function Provider(props) {
+    const [state, dispatch] = useReducer(reducer1, initialState1);
+    return (
+      <ContainerContext1.Provider value={{ state, dispatch }}>
+        {props.children}
+      </ContainerContext1.Provider>
+    );
+  }
+
+  const App = () => {
+    return (
+      <Provider>
+        <Counter1 />
+        <Tip1 />
+      </Provider>
+    );
+  };
+
+  window.addEventListener('load', function () {
+    ReactDOM.render(<App />, document.querySelector('#root1'))
+  })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div class="box" style="display:flex">
+  <div class="item">
+    1---------------------------------------------0000
+  </div>
+  <div class="item">2222</div>
+</div>
+<div>
+  <button onclick="document.querySelector('.item:first-child').style = 'width:0'">设置width:0</button>
+  <button onclick="document.querySelector('.item:first-child').style = 'white-space:normal'">设置white-space:normal</button>
+</div>
+<style>
+  .box{
+    margin: 10px 0;border: 1px solid #cccccc;
+    align-items: center;
+    max-width: 560px;
+  }
+  .item{
+    min-height: 50px;line-height: 50px;border-left:1px solid #c6c6c6;; background-color: beige;
+    flex:1;
+    white-space:nowrap
+  }
+</style>
+<script></script>
+</body>
+</html>

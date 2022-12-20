@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const server = http.createServer(function(req,res){
   const path = req.url;
-  if(path === '/img.png'){
+  if(path === '/img.png' || path === '/favicon.ico'){
     res.writeHead(200,{'Content-type':'image/png'})
     var stream = fs.createReadStream('img.png')
     stream.pipe(res)
@@ -11,9 +11,8 @@ const server = http.createServer(function(req,res){
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(`
       <h1>Hello World</h1>
-      <img src="img.png" alt="">
       <script>
-        for(var i=0;i<100;i++){
+        for(var i=0;i<50;i++){
           fetch('/img.png')
         }
       </script>
